@@ -1,0 +1,295 @@
+---
+title: "Algoritmo"
+author: "Luciana Noriega"
+date: "2026-04-01"
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Primeros comandos de R
+
+R es un lenguaje muy parecido a mathlab y permite el trabajo con matrices.
+
+```{r}
+a=38
+a=40
+b=80
+c=b-a
+c
+```
+
+```{r}
+y=40
+alpha<-30
+```
+
+##uso de datasets o base de datos internos de R usando el comando data en la consola obtenemos distintos datos ya cargados en la base de datos de R, estos datos estan dados en tablas de las cuales podemos elegir columnas especificas si escribimos \$ depues del comando de informacion especifico y elegimos la columa de datos deseada
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure,type='s',main="presion del gas ideal",ylab="hPa",xlab="K")
+```
+
+##comando plot El comando plot es un comando que permite graficar cualquier fuente de datos que le asignemos, teniendo tambien la posibilidad de asignar nombre a las variables o hacer cambios al grafico. En caso de duda de como utilizar un comando podemos escribir ##plot## en la consola, lo cual abrira una ventana que explicara en detalle el comando.
+
+##Funciones estadisticas
+
+```{r}
+z1<-rnorm(350,22,5)
+z1
+
+```
+
+```{r}
+
+w1<-length(z1)
+w1
+x1<-(500:849)
+x1
+plot(z1,x1) 
+```
+
+```{r}
+hist(z1,main="Histograma de edades",breaks=2)
+```
+
+```{r}
+density(z1,type='d')
+```
+
+```{r}
+##plot(density(z1),type='d') ver si este plot va pq me ponia error
+
+```
+##Ejercicio 1
+crear un vector que tenga todos los numeros enteros desde el 1 hasta 272
+```{r}
+Secuencia_dni<-(1:272)
+Secuencia_dni
+```
+##Ejercicio 2
+calcular la suma de todos los valores del vector secuencia dni
+```{r}
+Total<-1
+Valor_final<-length(Secuencia_dni)
+for (i in 1:Valor_final) {
+  Total<-Total+i }
+  Total
+
+```
+##Ejercicio 3
+Repetir el ejercicio anterior en phyton
+```{python}
+suma=0
+for i in range (1,273):
+  suma+=i
+  print(suma)
+```
+##Ejercicio 4
+Cuanto tarda en correr el codigo del ejercicio 2?
+```{r}
+inicio<-Sys.time()
+Total<-0
+Valor_final<-length(Secuencia_dni)
+for (i in 1:Valor_final) {
+  Total<-Total+i }
+  Total
+  Sys.time()
+  final<-Sys.time()
+  final-inicio
+```
+##Ejercicio 5
+Repetir el ejercicio anterior usando la cabeza como Gauss
+```{r}
+system.time({
+  n <- length(Secuencia_dni)
+  
+  #Aplicamos la fórmula de Gauss 
+  total_gauss <- (n*(n+1))/2
+  
+  print(total_gauss)
+})
+```
+##PARTE 2
+##1.4 CONSIGNA: Comparar la performance con systime
+```{r}
+A <- 0
+InicioA=Sys.time()
+for (i in 1:50000) { A[i] <- (i*2)}
+head (A)
+tail(A)
+FinA=Sys.time()
+FinA-InicioA
+
+InicioB=Sys.time()
+B=seq(1, 100000, by = 2)
+head(B)
+tail(B)
+FinB=Sys.time()
+FinB-InicioB
+
+```
+##1.5 CONSIGNA: Implementacion de una serie Fibonachi o Fibonacci
+```{r}
+n <- 30
+system.time({
+  fib <- numeric(n)
+  fib[1] <- 0
+  fib[2] <- 1
+  for(i in 3:n){
+    fib[i] <- fib[i-1]+fib[i-2]
+  }
+})
+```
+```{r}
+print("primeros numeros de la serie ")
+```
+```{r}
+head(fib,10)
+```
+```{r}
+fib_recursiva<- function(k){
+  if(k==0)return(0)
+  if(k==1)return(1)
+  return(fib_recursiva(k-1)+fib_recursiva(k-2))
+} 
+print("tiempo de ejecucion recursiva:")
+```
+```{r}
+system.time({
+  resultado_rec <- fib_recursiva(n)
+})
+```
+
+##1.6 CONSIGNA: Cuantas iteraciones se necesitan para generar un número de la serie mayor que 1.000.000 
+```{r}
+a0=0
+a1=1
+it=2
+  while (a1<1000001){
+    an=a0+a1
+    a0=a1 
+    a1=an
+    it=it+1}
+cat("el primer numero mayor a 1000000 es:",a1,"/n")
+cat("se necesitaron", it-1,"iteraciones (pasos) para superarlo.")
+it
+```
+
+##1.7 CONSIGNA: Compara la performance de ordenación del método burbuja vs el método sort de R Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. 
+
+```{r}
+library(microbenchmark)
+x<-sample(1:20000,10)
+# Creo una funcion para ordenar
+burbuja <- function(x){
+  res <- microbenchmark(NULL, burbuja, times=1000L)
+n<-length(x)
+for(j in 1:(n-1)){
+for(i in 1:(n-j)){
+if(x[i]>x[i+1]){
+temp<-x[i]
+x[i]<-x[i+1]
+x[i+1]<-temp
+}
+}
+}
+return(x)
+}
+res<-burbuja(x)
+#Muestra obtenida
+x
+res
+sort(x)
+
+```
+1.8 La penitencia de Newton 
+```{r}
+n <- 1e7
+system.time({
+suma_iterativa <- 0
+for (i in 1:n) {
+suma_iterativa <- suma_iterativa + i
+}
+})
+```
+
+```{r}
+cat("Resultado Suma Iterativa:", suma_iterativa, "\n")
+```
+```{r}
+system.time({
+suma_analitica <- (n * (n + 1)) / 2
+})
+```
+```{r}
+cat("Resultado Suma Analítica:", suma_analitica, "\n")
+
+```
+## Investigar con los gráficos de violin (de la biblioteca micro como se comporta una computadora usando métodos de ordenamiento "burbuja" y compararlo con el método sort nativo de R .
+
+## Medir la performance del método kmean de agrupamiento. Realizar una inroducción teórica antes de medir con gráfico de violin.
+
+```{r}
+library(microbenchmark)
+library(ggplot2)
+library(dplyr)
+
+# Implementación bubble sort
+bubble_sort <- function(x) {
+  n <- length(x)
+  for (i in 1:(n-1)) {
+    for (j in 1:(n-i)) {
+      if (x[j] > x[j+1]) {
+        temp <- x[j]
+        x[j] <- x[j+1]
+        x[j+1] <- temp
+      }
+    }
+  }
+  return(x)
+}
+
+# Datos de prueba
+set.seed(123)
+vec <- sample(1:5000, 500)
+
+# Benchmark
+bench <- microbenchmark(
+  bubble = bubble_sort(vec),
+  sortR = sort(vec),
+  times = 30
+)
+
+# Convertir a ms
+df <- as.data.frame(bench) %>%
+  mutate(time_ms = time / 1e6)
+
+# Gráfico de violín
+ggplot(df, aes(x = expr, y = time_ms)) +
+  geom_violin(trim = FALSE, fill = "lightblue", alpha = 0.6) +
+  geom_boxplot(width = 0.1, outlier.shape = NA) +
+  labs(title = "Bubble Sort vs sort()",
+       x = "Método",
+       y = "Tiempo (ms)") +
+  theme_minimal()
+```
