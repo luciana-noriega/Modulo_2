@@ -1,0 +1,45 @@
+---
+title: "Generar un vector secuencia"
+format: revealjs
+editor: visual
+---
+
+## CONSIGNA: Comparar la performance con systime
+
+El ejercicio tiene como objetivo comparar la estructura **for** con la función **seq**, que es una función optimizada de R. Dicha comparación debe de ser hecha con la función systime.
+
+## Solución con for
+
+-Creamos la variable A y le otorgamos un valor inicial -Iniciamos a "tomar el tiempo" con la función **sys.time** -Creamos el bucle for con la secuencia solicitada -Utilizamos las funciones **head** y **tail** para que nos muestre los primeros y los últimos 6 números para corroborar que el vector se formó correctamente y que llegó a 100000 -Guardamos la hora final mediante Sys.time y así corroborar cuanto tiempo real le tomó al procesador.
+
+## Secuencia de R usando for
+
+```{r, echo=TRUE}
+A <- 0
+InicioA=Sys.time()
+for (i in 1:50000) { A[i] <- (i*2)}
+head (A)
+tail(A)
+FinA=Sys.time()
+FinA-InicioA
+```
+
+## Solución con la función seq
+
+Luego, repetimos el proceso con la función seq en lugar del bucle for.También, utilizando al función Sys.time
+
+## Secuencia de R usando la función seq
+
+```{r, echo=TRUE}
+InicioB=Sys.time()
+B=seq(1, 100000, by = 2)
+head(B)
+tail(B)
+FinB=Sys.time()
+FinB-InicioB
+
+```
+
+## Conclusión
+
+Los tiempos fueron 0.02158332 secs para el bucle for y 0.007312536 secs para la función seq, por lo que concluimos que la función optimizada de R es mucho más rápida que el bucle for.
